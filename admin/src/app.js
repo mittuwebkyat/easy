@@ -596,7 +596,7 @@ barba.init({
                     fetch('./action/fetch_all_sub_category.php')
                         .then(response => response.json())
                         .then(data => {
-                            // console.log(data);
+                            console.log(data);
                             if (data.length) {
                                 data.map(x => {
                                     const {
