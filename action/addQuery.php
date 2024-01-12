@@ -2,13 +2,12 @@
 require_once '../_class/query.php';
 $obj = new Query();
 
-
 $fileName = '';
 if (isset($_FILES['file'])) {
     $fileName  = $_FILES['file']['name'];
     $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-    $fileName  = time() . "_" . '.' . $extension;
-    $path      = "../admin/upload_image/query/" . $fileName;
+    $fileName  = time() . '_' . '.' . $extension;
+    $path      = '../admin/upload_image/query/' . $fileName;
     move_uploaded_file($_FILES['file']['tmp_name'], $path);
 }
 
@@ -32,5 +31,5 @@ $info = [
     'file_name'       => $fileName
 ];
 
-$stmt = $obj->insertData("tbl_query", $info);
+$stmt = $obj->insertData('tbl_query', $info);
 echo ($stmt) ? 1 : 0;

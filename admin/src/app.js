@@ -1075,6 +1075,7 @@ barba.init({
         namespace: 'login', beforeEnter() {
             $('#login_form').submit(x => {
                 x.preventDefault()
+                //...
                 const username = $('#userName').val()
                 const password = $('#password').val()
 
