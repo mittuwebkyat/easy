@@ -114,14 +114,14 @@ barba.init({
                 const name = $('#name').val()
 
                 fetch('action/add_category.php', {
-                        method: 'post',
-                        headers: {
-                            contentType: 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: name
-                        })
+                    method: 'post',
+                    headers: {
+                        contentType: 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name
                     })
+                })
                     .then(response => response.text())
                     .then(data => {
                         console.log(data)
@@ -174,15 +174,15 @@ barba.init({
                 const name = $('#name').val()
 
                 fetch('action/update_category.php', {
-                        method: 'post',
-                        headers: {
-                            contentType: 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: name,
-                            id: id
-                        })
+                    method: 'post',
+                    headers: {
+                        contentType: 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        id: id
                     })
+                })
                     .then(response => response.text())
                     .then(data => {
                         console.log(data)
@@ -306,9 +306,9 @@ barba.init({
                 fd.append('image', image)
 
                 fetch('action/add_sub_category.php', {
-                        method: 'post',
-                        body: fd
-                    })
+                    method: 'post',
+                    body: fd
+                })
                     .then(response => response.text())
                     .then(data => {
                         console.log(data)
@@ -392,9 +392,9 @@ barba.init({
                 fd.append('id', id)
 
                 fetch('action/update_sub_category.php', {
-                        method: 'post',
-                        body: fd
-                    })
+                    method: 'post',
+                    body: fd
+                })
                     .then(response => response.text())
                     .then(data => {
                         console.log(data)
@@ -478,17 +478,17 @@ barba.init({
                     }
                 }).then(x => {
 
-                    $('#search').on('keyup', function () {
-                        var value = $(this).val().toLowerCase();
-                        console.log($('table tr .accept-block'));
+                $('#search').on('keyup', function () {
+                    var value = $(this).val().toLowerCase();
+                    console.log($('table tr .accept-block'));
 
-                        $('table tr .accept-block').parent().filter(function () {
-                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                        });
+                    $('table tr .accept-block').parent().filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                     });
+                });
 
 
-                })
+            })
         }
     }, {
         namespace: 'add_product',
@@ -526,63 +526,63 @@ barba.init({
                         })
                     }
                 }).then(() => {
-                    //! add product
-                    $('#add_product_form').submit(x => {
-                        x.preventDefault()
-                        const button = new Button($('#save_btn')[0])
-                        button.load('Creating')
+                //! add product
+                $('#add_product_form').submit(x => {
+                    x.preventDefault()
+                    const button = new Button($('#save_btn')[0])
+                    button.load('Creating')
 
-                        const name = $('#name').val()
-                        const sub_category_id = $('#sub_category').val()
-                        const price = $('#price').val()
-                        const discount_price = $('#discount_price').val()
-                        const product_weight = $('#weight').val()
-                        const discription = $('#discription').val()
-                        const size = $('#size').val()
-                        const image = $('#image')[0].files
-                        let fd = new FormData()
+                    const name = $('#name').val()
+                    const sub_category_id = $('#sub_category').val()
+                    const price = $('#price').val()
+                    const discount_price = $('#discount_price').val()
+                    const product_weight = $('#weight').val()
+                    const discription = $('#discription').val()
+                    const size = $('#size').val()
+                    const image = $('#image')[0].files
+                    let fd = new FormData()
 
-                        fd.append('name', name)
-                        fd.append('sub_category_id', sub_category_id)
-                        fd.append('price', price)
-                        fd.append('discount_price', discount_price)
-                        fd.append('product_weight', product_weight)
-                        fd.append('size', size)
-                        fd.append('discription', discription)
+                    fd.append('name', name)
+                    fd.append('sub_category_id', sub_category_id)
+                    fd.append('price', price)
+                    fd.append('discount_price', discount_price)
+                    fd.append('product_weight', product_weight)
+                    fd.append('size', size)
+                    fd.append('discription', discription)
 
-                        if (image.length < 7) {
-                            for (x = 0; x < image.length; x++) {
-                                fd.append('image[]', image[x])
-                            }
-                            fetch('action/add_product.php', {
-                                    method: 'post',
-                                    body: fd
-                                })
-                                .then(response => response.text())
-                                .then(data => {
-                                    console.log(data)
-                                    if (data == 1) {
-                                        button.stop()
-                                        toaster.trigger({
-                                            content: `A new subcategory has been created. `,
-                                            timeout: 2000,
-                                            type: 'success'
-                                        })
-                                        barba.go('product_list.html')
-                                    } else {
-                                        button.stop()
-                                        toaster.trigger({
-                                            content: `Something went wrong, try again !`,
-                                            timeout: 2000,
-                                            type: 'error'
-                                        })
-                                    }
-                                })
-                        } else {
-                            alert("You can select a maximum of 4 images per product.");
+                    if (image.length < 7) {
+                        for (x = 0; x < image.length; x++) {
+                            fd.append('image[]', image[x])
                         }
-                    })
+                        fetch('action/add_product.php', {
+                            method: 'post',
+                            body: fd
+                        })
+                            .then(response => response.text())
+                            .then(data => {
+                                console.log(data)
+                                if (data == 1) {
+                                    button.stop()
+                                    toaster.trigger({
+                                        content: `A new subcategory has been created. `,
+                                        timeout: 2000,
+                                        type: 'success'
+                                    })
+                                    barba.go('product_list.html')
+                                } else {
+                                    button.stop()
+                                    toaster.trigger({
+                                        content: `Something went wrong, try again !`,
+                                        timeout: 2000,
+                                        type: 'error'
+                                    })
+                                }
+                            })
+                    } else {
+                        alert("You can select a maximum of 4 images per product.");
+                    }
                 })
+            })
         }
     }, {
         namespace: 'edit_product',
@@ -713,9 +713,9 @@ barba.init({
                     }
 
                     fetch('action/update_product.php', {
-                            method: 'post',
-                            body: fd
-                        })
+                        method: 'post',
+                        body: fd
+                    })
                         .then(response => response.text())
                         .then(data => {
                             // console.log(data)
@@ -841,15 +841,15 @@ barba.init({
                         const collectionName = $('#collection_name').val()
 
                         fetch('./action/add_collection.php', {
-                                method: 'post',
-                                headers: {
-                                    contentType: 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    collectionName: collectionName,
-                                    productIdArray: productIdArray
-                                })
+                            method: 'post',
+                            headers: {
+                                contentType: 'application/json'
+                            },
+                            body: JSON.stringify({
+                                collectionName: collectionName,
+                                productIdArray: productIdArray
                             })
+                        })
                             .then(response => response.json())
                             .then(data => {
                                 console.log(data)
@@ -941,16 +941,16 @@ barba.init({
                             const collectionName = $('#collection_name').val()
 
                             fetch('./action/update_collection.php', {
-                                    method: 'post',
-                                    headers: {
-                                        contentType: 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        collectionName: collectionName,
-                                        productIdArray: productIdArray,
-                                        id: collectionId
-                                    })
+                                method: 'post',
+                                headers: {
+                                    contentType: 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    collectionName: collectionName,
+                                    productIdArray: productIdArray,
+                                    id: collectionId
                                 })
+                            })
                                 .then(response => response.json())
                                 .then(data => {
                                     console.log(data)
@@ -1052,9 +1052,9 @@ barba.init({
                 fd.append('url', url);
 
                 fetch('./action/add_banner.php', {
-                        method: 'post',
-                        body: fd
-                    })
+                    method: 'post',
+                    body: fd
+                })
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
@@ -1133,31 +1133,14 @@ barba.init({
             header.update('Order Details', sidemenu.current().find('i')[0].outerHTML)
             loader.stop()
 
-            let fd = new FormData();
-            fd.append("size", size);
-            fd.append("color", color);
-            fd.append("qty", qty);
-            fd.append("price", price);
-            fd.append("file", file);
-            fd.append("productName", productName);
-            fd.append("name", name);
-            fd.append("building_office", building_office);
-            fd.append("street_locality", street_locality);
-            fd.append("district", district);
-            fd.append("state", state);
-            fd.append("pincode", pincode);
-            fd.append("contactName", contactName);
-            fd.append("WhatsAppNumber", WhatsAppNumber);
-
-            fetch('./action/fetchOrderDetails.php',{
-                method:'POST',
+            fetch('./action/fetchOrderDetails.php', {
+                method: 'POST',
                 body: fd
             })
-            .then(response => response.text())
-            .then(res => {
-                
-            })
+                .then(response => response.text())
+                .then(res => {
 
+                })
         }
     }, {
         namespace: 'collection',
@@ -1226,15 +1209,15 @@ barba.init({
                 const password = $('#password').val()
 
                 fetch('./action/loginAction.php', {
-                        method: 'post',
-                        headers: {
-                            contentType: 'application/json'
-                        },
-                        body: JSON.stringify({
-                            username: username,
-                            password: password
-                        })
+                    method: 'post',
+                    headers: {
+                        contentType: 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
                     })
+                })
                     .then(response => response.text())
                     .then(data => {
                         console.log(data)

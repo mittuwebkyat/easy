@@ -26,6 +26,9 @@ $info = [
     'pincode'         => $_POST['pincode'],
     'contact_name'    => $_POST['contactName'],
     'whatsapp_number' => $_POST['WhatsAppNumber'],
+    'line_1'          => $_POST['line1'],
+    'line_2'          => $_POST['line2'],
+    'line_3'          => $_POST['line3'],
     'file_name'       => $fileName
 ];
 
