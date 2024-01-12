@@ -13,8 +13,7 @@ import Alert from './component/alert/alert.js'
 const sidemenu = new Sidemenu()
 sidemenu.render()
 sidemenu.hint({
-    target: 'admission',
-    content: `new`
+    target: 'admission', content: `new`
 })
 
 // header
@@ -29,18 +28,15 @@ const toaster = new Toaster()
 const loader = new Loader()
 
 barba.init({
-    debug: true,
-    views: [{
-        namespace: 'dashboard',
-        beforeEnter(data) {
+    debug: true, views: [{
+        namespace: 'dashboard', beforeEnter(data) {
             sidemenu.active('category')
             header.update('Dashboard', sidemenu.current().find('i')[0].outerHTML)
             loader.load()
             loader.stop()
         }
     }, {
-        namespace: 'category_list',
-        beforeEnter() {
+        namespace: 'category_list', beforeEnter() {
             loader.load()
             sidemenu.active('category')
             header.update('List Category', sidemenu.current().find('i')[0].outerHTML)
@@ -60,16 +56,12 @@ barba.init({
                         data.map(row => {
                             slno++
                             const {
-                                id,
-                                name,
-                                date,
-                                time
+                                id, name, date, time
                             } = row
                             const rowContent = [slno, name, date, time]
                             table.addRow(rowContent, id)
                             table.actions({
-                                edit: 'edit_category.html?id=' + id,
-                                delete: async id => {
+                                edit: 'edit_category.html?id=' + id, delete: async id => {
                                     const data = {
                                         id: id
                                     }
@@ -97,8 +89,7 @@ barba.init({
                 })
         }
     }, {
-        namespace: 'add_category',
-        beforeEnter() {
+        namespace: 'add_category', beforeEnter() {
             loader.load()
             sidemenu.active('category')
             header.update('Add Category', sidemenu.current().find('i')[0].outerHTML)
@@ -114,11 +105,9 @@ barba.init({
                 const name = $('#name').val()
 
                 fetch('action/add_category.php', {
-                    method: 'post',
-                    headers: {
+                    method: 'post', headers: {
                         contentType: 'application/json'
-                    },
-                    body: JSON.stringify({
+                    }, body: JSON.stringify({
                         name: name
                     })
                 })
@@ -128,25 +117,20 @@ barba.init({
                         if (data == 1) {
                             button.stop()
                             toaster.trigger({
-                                content: `New Category Created`,
-                                timeout: 2000,
-                                type: 'success'
+                                content: `New Category Created`, timeout: 2000, type: 'success'
                             })
                             barba.go('category_list.html')
                         } else {
                             button.stop()
                             toaster.trigger({
-                                content: `Something went wrong!`,
-                                timeout: 2000,
-                                type: 'error'
+                                content: `Something went wrong!`, timeout: 2000, type: 'error'
                             })
                         }
                     })
             })
         }
     }, {
-        namespace: 'edit_category',
-        beforeEnter() {
+        namespace: 'edit_category', beforeEnter() {
             loader.load()
             sidemenu.active('category')
             header.update('Edit Category', sidemenu.current().find('i')[0].outerHTML)
@@ -174,13 +158,10 @@ barba.init({
                 const name = $('#name').val()
 
                 fetch('action/update_category.php', {
-                    method: 'post',
-                    headers: {
+                    method: 'post', headers: {
                         contentType: 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        id: id
+                    }, body: JSON.stringify({
+                        name: name, id: id
                     })
                 })
                     .then(response => response.text())
@@ -189,25 +170,20 @@ barba.init({
                         if (data == 1) {
                             button.stop()
                             toaster.trigger({
-                                content: `New Category Created`,
-                                timeout: 2000,
-                                type: 'success'
+                                content: `New Category Created`, timeout: 2000, type: 'success'
                             })
                             barba.go('category_list.html')
                         } else {
                             button.stop()
                             toaster.trigger({
-                                content: `Something went wrong!`,
-                                timeout: 2000,
-                                type: 'error'
+                                content: `Something went wrong!`, timeout: 2000, type: 'error'
                             })
                         }
                     })
             })
         }
     }, {
-        namespace: 'sub_category_list',
-        beforeEnter() {
+        namespace: 'sub_category_list', beforeEnter() {
             loader.load()
             sidemenu.active('subcategory')
             header.update('List Sub Category', sidemenu.current().find('i')[0].outerHTML)
@@ -227,17 +203,12 @@ barba.init({
                         data.map(row => {
                             slno++
                             const {
-                                id,
-                                name,
-                                file_name,
-                                date,
-                                time
+                                id, name, file_name, date, time
                             } = row
                             const rowContent = [slno, name, date, time]
                             table.addRow(rowContent, id)
                             table.actions({
-                                edit: 'edit_sub_category.html?id=' + id,
-                                delete: async id => {
+                                edit: 'edit_sub_category.html?id=' + id, delete: async id => {
                                     const data = {
                                         id: id
                                     }
@@ -265,8 +236,7 @@ barba.init({
                 })
         }
     }, {
-        namespace: 'add_sub_category',
-        beforeEnter() {
+        namespace: 'add_sub_category', beforeEnter() {
             loader.load()
             sidemenu.active('subcategory')
             header.update('Add Sub Category', sidemenu.current().find('i')[0].outerHTML)
@@ -280,8 +250,7 @@ barba.init({
                     if (data.length) {
                         data.map(x => {
                             const {
-                                name,
-                                id
+                                name, id
                             } = x
 
                             $('#category').append(`<option value="${id}">${name}</option>`)
@@ -306,8 +275,7 @@ barba.init({
                 fd.append('image', image)
 
                 fetch('action/add_sub_category.php', {
-                    method: 'post',
-                    body: fd
+                    method: 'post', body: fd
                 })
                     .then(response => response.text())
                     .then(data => {
@@ -315,25 +283,20 @@ barba.init({
                         if (data == 1) {
                             button.stop()
                             toaster.trigger({
-                                content: `New Sub Category Created`,
-                                timeout: 2000,
-                                type: 'success'
+                                content: `New Sub Category Created`, timeout: 2000, type: 'success'
                             })
                             barba.go('subcategory_list.html')
                         } else {
                             button.stop()
                             toaster.trigger({
-                                content: `Something went wrong!`,
-                                timeout: 2000,
-                                type: 'error'
+                                content: `Something went wrong!`, timeout: 2000, type: 'error'
                             })
                         }
                     })
             })
         }
     }, {
-        namespace: 'edit_sub_category',
-        beforeEnter() {
+        namespace: 'edit_sub_category', beforeEnter() {
             loader.load()
             sidemenu.active('subcategory')
             header.update('Edit Sub Category', sidemenu.current().find('i')[0].outerHTML)
@@ -347,10 +310,7 @@ barba.init({
                     // console.log(data);
                     if (data.length) {
                         const {
-                            id,
-                            category_id,
-                            name,
-                            file_name
+                            id, category_id, name, file_name
                         } = data[0]
                         $('#name').val(name)
                         return category_id
@@ -365,8 +325,7 @@ barba.init({
                             if (data.length) {
                                 data.map(x => {
                                     const {
-                                        name,
-                                        id
+                                        name, id
                                     } = x
                                     $('#category').append(`<option ${cat_id == id ? 'selected' : ''} value="${id}">${name}</option>`)
                                 })
@@ -392,8 +351,7 @@ barba.init({
                 fd.append('id', id)
 
                 fetch('action/update_sub_category.php', {
-                    method: 'post',
-                    body: fd
+                    method: 'post', body: fd
                 })
                     .then(response => response.text())
                     .then(data => {
@@ -401,25 +359,20 @@ barba.init({
                         if (data == 1) {
                             button.stop()
                             toaster.trigger({
-                                content: `New Sub Category Created`,
-                                timeout: 2000,
-                                type: 'success'
+                                content: `New Sub Category Created`, timeout: 2000, type: 'success'
                             })
                             barba.go('subcategory_list.html')
                         } else {
                             button.stop()
                             toaster.trigger({
-                                content: `Something went wrong!`,
-                                timeout: 2000,
-                                type: 'error'
+                                content: `Something went wrong!`, timeout: 2000, type: 'error'
                             })
                         }
                     })
             })
         }
     }, {
-        namespace: 'product_list',
-        beforeEnter() {
+        namespace: 'product_list', beforeEnter() {
             loader.load()
             sidemenu.active('products')
             header.update('List Product', sidemenu.current().find('i')[0].outerHTML)
@@ -440,18 +393,12 @@ barba.init({
                         data.map(row => {
                             slno++
                             const {
-                                id,
-                                name,
-                                price,
-                                discription,
-                                date,
-                                time
+                                id, name, price, discription, date, time
                             } = row
                             const rowContent = [slno, name, date, time]
                             table.addRow(rowContent, id)
                             table.actions({
-                                edit: 'edit_product.html?id=' + id,
-                                delete: async id => {
+                                edit: 'edit_product.html?id=' + id, delete: async id => {
                                     const data = {
                                         id: id
                                     }
@@ -491,8 +438,7 @@ barba.init({
             })
         }
     }, {
-        namespace: 'add_product',
-        beforeEnter() {
+        namespace: 'add_product', beforeEnter() {
             loader.load()
             sidemenu.active('products')
             header.update('Add Product', sidemenu.current().find('i')[0].outerHTML)
@@ -519,8 +465,7 @@ barba.init({
                     if (data.length) {
                         data.map(x => {
                             const {
-                                name,
-                                id
+                                name, id
                             } = x
                             $('#sub_category').append(`<option value="${id}">${name}</option>`)
                         })
@@ -555,8 +500,7 @@ barba.init({
                             fd.append('image[]', image[x])
                         }
                         fetch('action/add_product.php', {
-                            method: 'post',
-                            body: fd
+                            method: 'post', body: fd
                         })
                             .then(response => response.text())
                             .then(data => {
@@ -564,17 +508,13 @@ barba.init({
                                 if (data == 1) {
                                     button.stop()
                                     toaster.trigger({
-                                        content: `A new subcategory has been created. `,
-                                        timeout: 2000,
-                                        type: 'success'
+                                        content: `A new subcategory has been created. `, timeout: 2000, type: 'success'
                                     })
                                     barba.go('product_list.html')
                                 } else {
                                     button.stop()
                                     toaster.trigger({
-                                        content: `Something went wrong, try again !`,
-                                        timeout: 2000,
-                                        type: 'error'
+                                        content: `Something went wrong, try again !`, timeout: 2000, type: 'error'
                                     })
                                 }
                             })
@@ -585,8 +525,7 @@ barba.init({
             })
         }
     }, {
-        namespace: 'edit_product',
-        beforeEnter() {
+        namespace: 'edit_product', beforeEnter() {
             loader.load()
             sidemenu.active('products')
             header.update('Edit Product', sidemenu.current().find('i')[0].outerHTML)
@@ -600,15 +539,7 @@ barba.init({
                     console.log(data)
                     if (data.length) {
                         const {
-                            id,
-                            name,
-                            price,
-                            discription,
-                            images,
-                            sub_cat_id,
-                            discount_price,
-                            weight,
-                            size
+                            id, name, price, discription, images, sub_cat_id, discount_price, weight, size
                         } = data[0]
                         $('#name').val(name);
                         $('#price').val(price);
@@ -619,8 +550,7 @@ barba.init({
 
                         images.map(x => {
                             const {
-                                id,
-                                name
+                                id, name
                             } = x;
                             let template = `
                                  <div class="image">
@@ -642,9 +572,7 @@ barba.init({
                                         /* --------------------------- removing image card -------------------------- */
                                         $(this).parent().remove();
                                         toaster.trigger({
-                                            content: `Deleted Successfully`,
-                                            timeout: 2000,
-                                            type: 'success'
+                                            content: `Deleted Successfully`, timeout: 2000, type: 'success'
                                         })
                                     }
                                 })
@@ -672,8 +600,7 @@ barba.init({
                             if (data.length) {
                                 data.map(x => {
                                     const {
-                                        name,
-                                        id
+                                        name, id
                                     } = x
                                     $('#sub_category').append(`<option ${sub_cat_id == id ? 'selected' : ''} value="${id}">${name}</option>`)
                                 })
@@ -713,8 +640,7 @@ barba.init({
                     }
 
                     fetch('action/update_product.php', {
-                        method: 'post',
-                        body: fd
+                        method: 'post', body: fd
                     })
                         .then(response => response.text())
                         .then(data => {
@@ -722,17 +648,13 @@ barba.init({
                             if (data == 1) {
                                 button.stop()
                                 toaster.trigger({
-                                    content: `product updated successfully`,
-                                    timeout: 2000,
-                                    type: 'success'
+                                    content: `product updated successfully`, timeout: 2000, type: 'success'
                                 })
                                 barba.go('product_list.html')
                             } else {
                                 button.stop()
                                 toaster.trigger({
-                                    content: `Something went wrong!`,
-                                    timeout: 2000,
-                                    type: 'error'
+                                    content: `Something went wrong!`, timeout: 2000, type: 'error'
                                 })
                             }
                         })
@@ -740,8 +662,7 @@ barba.init({
             })
         }
     }, {
-        namespace: 'collection',
-        beforeEnter() {
+        namespace: 'collection', beforeEnter() {
             loader.load()
             sidemenu.active('collection')
             header.update('List Product', sidemenu.current().find('i')[0].outerHTML)
@@ -761,16 +682,12 @@ barba.init({
                         data.map(row => {
                             slno++
                             const {
-                                collection_id,
-                                collection_name,
-                                date,
-                                product_count
+                                collection_id, collection_name, date, product_count
                             } = row
                             const rowContent = [slno, collection_name, product_count, date]
                             table.addRow(rowContent, collection_id)
                             table.actions({
-                                edit: 'edit_collection.html?id=' + collection_id,
-                                delete: async id => {
+                                edit: 'edit_collection.html?id=' + collection_id, delete: async id => {
                                     const data = {
                                         id: id
                                     }
@@ -798,8 +715,7 @@ barba.init({
                 })
         }
     }, {
-        namespace: 'add_collection',
-        beforeEnter() {
+        namespace: 'add_collection', beforeEnter() {
             loader.load()
             sidemenu.active('collection')
             header.update('Add Product', sidemenu.current().find('i')[0].outerHTML)
@@ -813,8 +729,7 @@ barba.init({
                     if (data.length) {
                         data.map(x => {
                             const {
-                                id,
-                                name
+                                id, name
                             } = x
 
                             let template = `<option value="${id}">${name}</option>`
@@ -823,9 +738,7 @@ barba.init({
 
                         $(document).ready(function () {
                             $('#products').CreateMultiCheckBox({
-                                width: '100%',
-                                defaultText: 'Select Below',
-                                height: '250px'
+                                width: '100%', defaultText: 'Select Below', height: '250px'
                             })
                         })
                     }
@@ -841,13 +754,10 @@ barba.init({
                         const collectionName = $('#collection_name').val()
 
                         fetch('./action/add_collection.php', {
-                            method: 'post',
-                            headers: {
+                            method: 'post', headers: {
                                 contentType: 'application/json'
-                            },
-                            body: JSON.stringify({
-                                collectionName: collectionName,
-                                productIdArray: productIdArray
+                            }, body: JSON.stringify({
+                                collectionName: collectionName, productIdArray: productIdArray
                             })
                         })
                             .then(response => response.json())
@@ -855,16 +765,12 @@ barba.init({
                                 console.log(data)
                                 if (data == 1) {
                                     toaster.trigger({
-                                        content: `New collection Created`,
-                                        timeout: 2000,
-                                        type: 'success'
+                                        content: `New collection Created`, timeout: 2000, type: 'success'
                                     })
                                     barba.go('collection.html')
                                 } else {
                                     toaster.trigger({
-                                        content: `Something went wrong !`,
-                                        timeout: 2000,
-                                        type: 'error'
+                                        content: `Something went wrong !`, timeout: 2000, type: 'error'
                                     })
                                 }
                             })
@@ -872,8 +778,7 @@ barba.init({
                 })
         }
     }, {
-        namespace: 'edit_collection',
-        beforeEnter() {
+        namespace: 'edit_collection', beforeEnter() {
             loader.load()
             sidemenu.active('collection')
             header.update('Add Product', sidemenu.current().find('i')[0].outerHTML)
@@ -889,8 +794,7 @@ barba.init({
                     if (data.length) {
                         data.map(x => {
                             const {
-                                id,
-                                name
+                                id, name
                             } = x
 
                             let template = `<option value="${id}">${name}</option>`
@@ -899,9 +803,7 @@ barba.init({
 
                         $(document).ready(function () {
                             $('#products').CreateMultiCheckBox({
-                                width: '100%',
-                                defaultText: 'Select Below',
-                                height: '250px'
+                                width: '100%', defaultText: 'Select Below', height: '250px'
                             })
                         })
                     }
@@ -914,8 +816,7 @@ barba.init({
                     console.log(data)
                     if (data.length) {
                         const {
-                            name,
-                            products
+                            name, products
                         } = data[0]
 
                         $('#collection_name').val(name)
@@ -941,14 +842,10 @@ barba.init({
                             const collectionName = $('#collection_name').val()
 
                             fetch('./action/update_collection.php', {
-                                method: 'post',
-                                headers: {
+                                method: 'post', headers: {
                                     contentType: 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    collectionName: collectionName,
-                                    productIdArray: productIdArray,
-                                    id: collectionId
+                                }, body: JSON.stringify({
+                                    collectionName: collectionName, productIdArray: productIdArray, id: collectionId
                                 })
                             })
                                 .then(response => response.json())
@@ -956,16 +853,12 @@ barba.init({
                                     console.log(data)
                                     if (data == 1) {
                                         toaster.trigger({
-                                            content: `collection Updated`,
-                                            timeout: 2000,
-                                            type: 'success'
+                                            content: `collection Updated`, timeout: 2000, type: 'success'
                                         })
                                         barba.go('collection.html')
                                     } else {
                                         toaster.trigger({
-                                            content: `Something went wrong !`,
-                                            timeout: 2000,
-                                            type: 'error'
+                                            content: `Something went wrong !`, timeout: 2000, type: 'error'
                                         })
                                     }
                                 })
@@ -974,8 +867,7 @@ barba.init({
                 })
         }
     }, {
-        namespace: 'banner',
-        beforeEnter() {
+        namespace: 'banner', beforeEnter() {
             loader.load()
             sidemenu.active('banner')
             header.update('List Banner', sidemenu.current().find('i')[0].outerHTML)
@@ -995,9 +887,7 @@ barba.init({
                         data.map(row => {
                             slno++
                             const {
-                                id,
-                                image,
-                                url
+                                id, image, url
                             } = row
 
                             const bannerImage = `<span><img src="./upload_image/banner/${image}" width="100px"></img></span>`;
@@ -1032,8 +922,7 @@ barba.init({
                 })
         }
     }, {
-        namespace: 'add_banner',
-        beforeEnter() {
+        namespace: 'add_banner', beforeEnter() {
             loader.load()
             sidemenu.active('banner')
             header.update('Add Banner', sidemenu.current().find('i')[0].outerHTML)
@@ -1052,8 +941,7 @@ barba.init({
                 fd.append('url', url);
 
                 fetch('./action/add_banner.php', {
-                    method: 'post',
-                    body: fd
+                    method: 'post', body: fd
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -1061,25 +949,20 @@ barba.init({
                         if (data == 1) {
                             button.stop();
                             toaster.trigger({
-                                content: 'Banner added successfully',
-                                timeout: 2000,
-                                type: 'success'
+                                content: 'Banner added successfully', timeout: 2000, type: 'success'
                             })
                             barba.go('./banner.html');
                         } else {
                             button.stop();
                             toaster.trigger({
-                                content: 'Something went wrong !',
-                                timeout: 2000,
-                                type: 'error'
+                                content: 'Something went wrong !', timeout: 2000, type: 'error'
                             })
                         }
                     })
             })
         }
     }, {
-        namespace: 'orders',
-        beforeEnter() {
+        namespace: 'orders', beforeEnter() {
             loader.load()
             sidemenu.active('orders')
             header.update('List Order', sidemenu.current().find('i')[0].outerHTML)
@@ -1099,15 +982,7 @@ barba.init({
                         data.map(row => {
                             slno++
                             const {
-                                id,
-                                name,
-                                whatsapp_number,
-                                product_name,
-                                qty,
-                                price,
-                                color,
-                                size,
-                                status
+                                id, name, whatsapp_number, product_name, qty, price, color, size, status
                             } = row
 
                             // if status 2 = rejected
@@ -1126,25 +1001,25 @@ barba.init({
                 })
         }
     }, , {
-        namespace: 'order_details',
-        beforeEnter() {
+        namespace: 'order_details', beforeEnter() {
             loader.load()
             sidemenu.active('orders')
             header.update('Order Details', sidemenu.current().find('i')[0].outerHTML)
             loader.stop()
 
+            // get id from url here then pass that id in fetch
+
             fetch('./action/fetchOrderDetails.php', {
-                method: 'POST',
-                body: fd
+                method: 'GET',
             })
                 .then(response => response.text())
                 .then(res => {
+                    // append all values in inputs from response here
 
                 })
         }
     }, {
-        namespace: 'collection',
-        beforeEnter() {
+        namespace: 'collection', beforeEnter() {
             loader.load()
             sidemenu.active('collection')
             header.update('List Product', sidemenu.current().find('i')[0].outerHTML)
@@ -1164,16 +1039,12 @@ barba.init({
                         data.map(row => {
                             slno++
                             const {
-                                collection_id,
-                                collection_name,
-                                date,
-                                product_count
+                                collection_id, collection_name, date, product_count
                             } = row
                             const rowContent = [slno, collection_name, product_count, date]
                             table.addRow(rowContent, collection_id)
                             table.actions({
-                                edit: 'edit_collection.html?id=' + collection_id,
-                                delete: async id => {
+                                edit: 'edit_collection.html?id=' + collection_id, delete: async id => {
                                     const data = {
                                         id: id
                                     }
@@ -1201,21 +1072,17 @@ barba.init({
                 })
         }
     }, {
-        namespace: 'login',
-        beforeEnter() {
+        namespace: 'login', beforeEnter() {
             $('#login_form').submit(x => {
                 x.preventDefault()
                 const username = $('#userName').val()
                 const password = $('#password').val()
 
                 fetch('./action/loginAction.php', {
-                    method: 'post',
-                    headers: {
+                    method: 'post', headers: {
                         contentType: 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password
+                    }, body: JSON.stringify({
+                        username: username, password: password
                     })
                 })
                     .then(response => response.text())
