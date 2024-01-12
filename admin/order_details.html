@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easystamp | Order Details</title>
+    <!-- main style -->
+    <link rel="stylesheet" href="libs/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../assets/images/logo.png">
+    <!-- main style -->
+    <link rel="stylesheet" href="libs/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+
+<body data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="order_details">
+        <div class="page-header">
+            <h1 class="page-title"></h1>
+        </div>
+
+        <div class="content">
+            <div class="form-feild">
+                <form action="" id="order_details_form">
+                    <div class="form-group">
+                        <div class="input-holder">
+                            <label for="">Product Name</label>
+                            <input type="text" required id="productName" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Size</label>
+                            <input type="text" required id="size" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Color</label>
+                            <input type="text" required id="color" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Quantity</label>
+                            <input type="text" required id="qty" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Price</label>
+                            <input type="text" required id="price" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">File</label>
+                            <input type="text" required id="doc" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Name</label>
+                            <input type="text" required id="name" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Building Name / Office Number</label>
+                            <input type="text" required id="building_office" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Street / Locality</label>
+                            <input type="text" required id="street_locality" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Enter Collection Name</label>
+                            <input type="text" required id="collection_name" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">District</label>
+                            <input type="text" required id="district" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">State</label>
+                            <input type="text" required id="state" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Pincode</label>
+                            <input type="text" required id="pincode" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Contact Person's Name</label>
+                            <input type="text" required id="contactName" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">WhatsApp Number</label>
+                            <input type="text" required id="WhatsAppNumber" placeholder="" readonly />
+                        </div>
+                        <div class="input-holder">
+                            <label for="">Enter Collection Name</label>
+                            <input type="text" required id="collection_name" placeholder="" readonly />
+                        </div>
+
+                    </div>
+                    <div class="btn-holder">
+                        <button id="accept_btn" class="btn" type="submit">Accept</button>
+                        <button id="reject_btn" class="btn">Reject</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+<!-- global jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!-- app js -->
+<script type="module" src="src/app.js"></script>
+
+</html>
