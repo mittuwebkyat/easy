@@ -5,7 +5,7 @@ $obj = new Query();
 if (isset($_FILES['banner']['name'])) {
     $bannerImageName = $_FILES['banner']['name'];
     $extension       = pathinfo($bannerImageName, PATHINFO_EXTENSION);
-    $randomName      = time() . "_" . '.' . $extension;
+    $randomName      = time() . '_' . '.' . $extension;
     $path            = "../upload_image/banner/" . $randomName;
     $info            = ['image' => $randomName, 'url' => $_POST['url']];
     $insert          = $obj->insertData("banner", $info);

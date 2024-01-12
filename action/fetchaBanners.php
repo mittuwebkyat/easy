@@ -4,7 +4,7 @@ $obj       = new Query();
 $dataArray = [];
 
 /* ---------------------------- fetch all banners --------------------------- */
-$fetchBanner = $obj->selectData("id,image,url", "banner", "where status != 0");
+$fetchBanner = $obj->selectData("id,image,url", "banner", "where status = 1");
 if (mysqli_num_rows($fetchBanner) > 0) {
     $i = 0;
     while ($data = mysqli_fetch_array($fetchBanner)) {

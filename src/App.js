@@ -3,139 +3,107 @@ import cookies from './cookies.js';
 
 barba.init({
     views: [{
-            namespace: 'home',
-            beforeEnter(data) {
-                basic();
+        namespace: 'home', beforeEnter(data) {
+            basic();
 
 
-                $.fn.jQuerySimpleCounter = function (options) {
-                    var settings = $.extend({
-                        start: 0,
-                        end: 100,
-                        easing: 'swing',
-                        duration: 400,
-                        complete: '',
-                        pre: false,
-                    }, options);
+            $.fn.jQuerySimpleCounter = function (options) {
+                var settings = $.extend({
+                    start: 0, end: 100, easing: 'swing', duration: 400, complete: '', pre: false,
+                }, options);
 
-                    var thisElement = $(this);
+                var thisElement = $(this);
 
-                    $({
-                        count: settings.start
-                    }).animate({
-                        count: settings.end
-                    }, {
-                        duration: settings.duration,
-                        easing: settings.easing,
-                        step: function () {
-                            var mathCount = Math.ceil(this.count);
-                            if (!settings.pre) {
-                                thisElement.text(mathCount + '+');
-                            } else {
-                                thisElement.text(mathCount)
-                            }
-                        },
-                        complete: settings.complete
-                    });
-                };
-
-                $('#number1').jQuerySimpleCounter({
-                    end: 10,
-                    duration: 1500,
-                    pre: true
+                $({
+                    count: settings.start
+                }).animate({
+                    count: settings.end
+                }, {
+                    duration: settings.duration, easing: settings.easing, step: function () {
+                        var mathCount = Math.ceil(this.count);
+                        if (!settings.pre) {
+                            thisElement.text(mathCount + '+');
+                        } else {
+                            thisElement.text(mathCount)
+                        }
+                    }, complete: settings.complete
                 });
-                $('#number2').jQuerySimpleCounter({
-                    end: 500,
-                    duration: 1500
-                });
-                $('#number3').jQuerySimpleCounter({
-                    end: 1000,
-                    duration: 1500
-                });
-                $('#number4').jQuerySimpleCounter({
-                    end: 50,
-                    duration: 1500
-                });
+            };
 
-                /* ------------------------- fetch all banner images ------------------------ */
-                fetch('./action/fetchaBanners.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        if (data.length) {
-                            data.map(x => {
-                                const {
-                                    image,
-                                    url
-                                } = x;
-                                let template = `
+            $('#number1').jQuerySimpleCounter({
+                end: 10, duration: 1500, pre: true
+            });
+            $('#number2').jQuerySimpleCounter({
+                end: 500, duration: 1500
+            });
+            $('#number3').jQuerySimpleCounter({
+                end: 1000, duration: 1500
+            });
+            $('#number4').jQuerySimpleCounter({
+                end: 50, duration: 1500
+            });
+
+            /* ------------------------- fetch all banner images ------------------------ */
+            fetch('./action/fetchaBanners.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.length) {
+                        data.map(x => {
+                            const {
+                                image, url
+                            } = x;
+                            let template = `
                             <a href="${url}" class="image">
                                 <img src="./admin/upload_image/banner/${image}" alt="">
                             </a>`;
-                                $('.banner-slide').append(template);
-                            })
-                            $('.banner-slide').owlCarousel({
-                                loop: false,
-                                nav: false,
-                                dots: true,
+                            $('.banner-slide').append(template);
+                        })
+                        $('.banner-slide').owlCarousel({
+                            loop: false, nav: false, dots: true,
 
-                                autoplay: 100,
-                                responsive: {
-                                    0: {
-                                        items: 1
-                                    }
+                            autoplay: 100, responsive: {
+                                0: {
+                                    items: 1
                                 }
-                            })
-                        }
-                    })
-
-
-
-                $('.cust-carousal').owlCarousel({
-                    loop: true,
-                    margin: 10,
-                    nav: false,
-                    stagePadding: 20,
-                    dots: false,
-                    responsive: {
-                        0: {
-                            items: 1
-                        },
-                        600: {
-                            items: 2
-                        },
-                        1000: {
-                            items: 3
-                        }
+                            }
+                        })
                     }
                 })
 
 
+            $('.cust-carousal').owlCarousel({
+                loop: true, margin: 10, nav: false, stagePadding: 20, dots: false, responsive: {
+                    0: {
+                        items: 1
+                    }, 600: {
+                        items: 2
+                    }, 1000: {
+                        items: 3
+                    }
+                }
+            })
 
 
-                $('#plants').attr('href', './products.html?id=1');
-                $('#pots').attr('href', './products.html?id=2');
+            $('#plants').attr('href', './products.html?id=1');
+            $('#pots').attr('href', './products.html?id=2');
 
 
+            // fetch all collections
+            fetch('./action/fetchAllCollection.php')
+                .then(response => response.json())
+                .then(data => {
+                    // const parsedData = JSON.parse(data);
+                    // console.log(data);
+                    if (data.length) {
 
-                // fetch all collections
-                fetch('./action/fetchAllCollection.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        // const parsedData = JSON.parse(data);
-                        // console.log(data);
-                        if (data.length) {
+                        data.map((x, i) => {
 
-                            data.map((x, i) => {
-
-                                const {
-                                    collection_id,
-                                    discription,
-                                    collection_name,
-                                    products
-                                } = x;
-                                console.log(products);
-                                let template = `
+                            const {
+                                collection_id, discription, collection_name, products
+                            } = x;
+                            console.log(products);
+                            let template = `
                         <section id="" class="trending">
                             <div class="section-title">
                                 <h2>${collection_name}</h2>
@@ -153,20 +121,14 @@ barba.init({
                                 </div>
                                 <div class="card-wrapper trending-carousal owl-carousel owl-theme">`;
 
-                                products && products.map(n => {
+                            products && products.map(n => {
 
-                                    const {
-                                        productId,
-                                        productName,
-                                        productPrice,
-                                        discountPrice,
-                                        productImage,
-                                        discription
-                                    } = n;
+                                const {
+                                    productId, productName, productPrice, discountPrice, productImage, discription
+                                } = n;
 
 
-                                    template +=
-                                        ` <a href="./product-details.html?id=${productId}" class="card">
+                                template += ` <a href="./product-details.html?id=${productId}" class="card">
                                         <div class="image">
                                             <img src="./admin/upload_image/products/${productImage}" alt="${productName}">
                                         </div>
@@ -188,256 +150,228 @@ barba.init({
                                             <div class="description">${discription}</div>
                                         </div>
                                     </a>`;
-                                })
+                            })
 
-                                template +=
-                                    `</div>
+                            template += `</div>
                                 </div>
                         </section>
                         
                         
                         `;
 
-                                $('#collections').after(template);
+                            $('#collections').after(template);
 
-                                const next = $(".trending-carousal").parent().find(".scroll-right");
-                                const prev = $(".trending-carousal").parent().find(".scroll-left");
-                                next.click(function () {
-                                    $(".trending-carousal").trigger("next.owl.carousel");
-                                });
-                                prev.click(function () {
-                                    $(".trending-carousal").trigger("prev.owl.carousel");
-                                });
+                            const next = $(".trending-carousal").parent().find(".scroll-right");
+                            const prev = $(".trending-carousal").parent().find(".scroll-left");
+                            next.click(function () {
+                                $(".trending-carousal").trigger("next.owl.carousel");
+                            });
+                            prev.click(function () {
+                                $(".trending-carousal").trigger("prev.owl.carousel");
+                            });
 
-                                // $('.banner-slide').owlCarousel({
-                                //     loop: true,
-                                //     nav: false,
-                                //     dots: false,
-                                //     autoplay: 100,
-                                //     responsive: {
-                                //         0: {
-                                //             items: 1
-                                //         }
-                                //     }
-                                // })
-                                $('.wrap').fadeOut(500);
-                                $('.trending-carousal').owlCarousel({
-                                    loop: true,
-                                    margin: 10,
-                                    nav: false,
-                                    // stagePadding: 20,
-                                    dots: false,
-                                    autoplay: true,
-                                    responsive: {
-                                        0: {
-                                            items: 2, 
-                                        },
-                                        600: {
-                                            items: 3
-                                        },
-                                        1000: {
-                                            items: 4
-                                        }
-                                    }
-                                })
-                            })
-                        } else {
+                            // $('.banner-slide').owlCarousel({
+                            //     loop: true,
+                            //     nav: false,
+                            //     dots: false,
+                            //     autoplay: 100,
+                            //     responsive: {
+                            //         0: {
+                            //             items: 1
+                            //         }
+                            //     }
+                            // })
                             $('.wrap').fadeOut(500);
-                        }
-                    }).then(() => {
-
-
-
-                    })
-
-                // fetch new products home 
-                fetch('./action/fetchNewProducts.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        if (data.length) {
-                            data.map(x => {
-                                const {
-                                    productId,
-                                    name,
-                                    price,
-                                    discount_price,
-                                    discription,
-                                    image
-                                } = x;
-
-                                let template = `
-                        <div class="card">
-                            <div class="image">
-                                <img src="./admin/upload_image/products/${image}" alt="">
-                            </div>
-                            <h6>Single Stem Vase</h6>
-                            <div class="price-wrap">
-                                <div class="price">
-                                    <div class="icon">
-                                        <img src="./assets/images/icons/Rupee.png" alt="">
-                                    </div>
-                                    <span class="amount">${price}</span>
-                                </div>
-                                <a href="./cart" class="outline-btn">ADD TO CART</a>
-                            </div>
-                        </div>`;
-
-                                $('#product-card-wrap').append(template);
+                            $('.trending-carousal').owlCarousel({
+                                loop: true, margin: 10, nav: false, // stagePadding: 20,
+                                dots: false, autoplay: true, responsive: {
+                                    0: {
+                                        items: 2,
+                                    }, 600: {
+                                        items: 3
+                                    }, 1000: {
+                                        items: 4
+                                    }
+                                }
                             })
-                        } else {
-                            alert('No products found');
-                        }
-                    })
-
-
-                // fetch stamp type
-                fetch('./action/fetchStampType.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        if (data.length) {
-                            data.map(x => {
-                                const {
-                                    productId,
-                                    name,
-                                    price,
-                                    discount_price,
-                                    discription,
-                                    image
-                                } = x;
-
-                                let template = `
-                        <div class="card">
-                            <div class="image">
-                                <img src="./admin/upload_image/products/${image}" alt="">
-                            </div>
-                            <h6>Single Stem Vase</h6>
-                            <div class="price-wrap">
-                                <div class="price">
-                                    <div class="icon">
-                                        <img src="./assets/images/icons/Rupee.png" alt="">
-                                    </div>
-                                    <span class="amount">${price}</span>
-                                </div>
-                                <a href="./cart" class="outline-btn">ADD TO CART</a>
-                            </div>
-                        </div>`;
-
-                                $('#product-card-wrap').append(template);
-                            })
-                        } else {
-                            alert('No products found');
-                        }
-                    })
-
-
-                $(".accordion-button").on("change", function () {
-                    $(".accordion-button").not(this).prop("checked", false);
-                    const isChecked = $(this).prop("checked");
-                    const content = $(this).closest(".accordion-item").find(".content");
-
-                    $(".content").removeClass("show");
-                    if (isChecked) {
-                        content.addClass("show");
+                        })
                     } else {
-                        content.removeClass("show");
+                        $('.wrap').fadeOut(500);
                     }
-                });
+                }).then(() => {
 
-                // $('#choose-stamp-type .card-wrapper .card').click(function () {
-                //     $('.card').removeClass('selected-card');
-                //     $(this).addClass('selected-card');
-                // })
-            }
-        }, {
-            namespace: 'about',
-            beforeEnter(data) {
 
-                basic();
-            }
-        },
-        {
-            namespace: 'products',
-            beforeEnter(data) {
+            })
 
-                basic();
+            // fetch new products home
+            fetch('./action/fetchNewProducts.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.length) {
+                        data.map(x => {
+                            const {
+                                productId, name, price, discount_price, discription, image
+                            } = x;
 
-                const categoryId = location.href.split('=')[1];
+                            let template = `
+                        <div class="card">
+                            <div class="image">
+                                <img src="./admin/upload_image/products/${image}" alt="">
+                            </div>
+                            <h6>Single Stem Vase</h6>
+                            <div class="price-wrap">
+                                <div class="price">
+                                    <div class="icon">
+                                        <img src="./assets/images/icons/Rupee.png" alt="">
+                                    </div>
+                                    <span class="amount">${price}</span>
+                                </div>
+                                <a href="./cart" class="outline-btn">ADD TO CART</a>
+                            </div>
+                        </div>`;
 
-                $('#category_filter').empty().append(`
+                            $('#product-card-wrap').append(template);
+                        })
+                    } else {
+                        alert('No products found');
+                    }
+                })
+
+
+            // fetch stamp type
+            fetch('./action/fetchStampType.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.length) {
+                        data.map(x => {
+                            const {
+                                productId, name, price, discount_price, discription, image
+                            } = x;
+
+                            let template = `
+                        <div class="card">
+                            <div class="image">
+                                <img src="./admin/upload_image/products/${image}" alt="">
+                            </div>
+                            <h6>Single Stem Vase</h6>
+                            <div class="price-wrap">
+                                <div class="price">
+                                    <div class="icon">
+                                        <img src="./assets/images/icons/Rupee.png" alt="">
+                                    </div>
+                                    <span class="amount">${price}</span>
+                                </div>
+                                <a href="./cart" class="outline-btn">ADD TO CART</a>
+                            </div>
+                        </div>`;
+
+                            $('#product-card-wrap').append(template);
+                        })
+                    } else {
+                        alert('No products found');
+                    }
+                })
+
+
+            $(".accordion-button").on("change", function () {
+                $(".accordion-button").not(this).prop("checked", false);
+                const isChecked = $(this).prop("checked");
+                const content = $(this).closest(".accordion-item").find(".content");
+
+                $(".content").removeClass("show");
+                if (isChecked) {
+                    content.addClass("show");
+                } else {
+                    content.removeClass("show");
+                }
+            });
+
+            // $('#choose-stamp-type .card-wrapper .card').click(function () {
+            //     $('.card').removeClass('selected-card');
+            //     $(this).addClass('selected-card');
+            // })
+        }
+    }, {
+        namespace: 'about', beforeEnter(data) {
+
+            basic();
+        }
+    }, {
+        namespace: 'products', beforeEnter(data) {
+
+            basic();
+
+            const categoryId = location.href.split('=')[1];
+
+            $('#category_filter').empty().append(`
                  <li>
                     <input type="radio" id="all" checked name="categories" value="0">
                     <label for="all">All</label><br>
                  </li>
             `);
 
-                if (categoryId != undefined) {
+            if (categoryId != undefined) {
 
-                    // fetch all sub category
-                    fetch('./action/fetchSubcategorys.php?id=' + categoryId)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-                            if (data.length) {
-                                data.map(i => {
-                                    const {
-                                        id,
-                                        name
-                                    } = i;
-                                    let template = `
+                // fetch all sub category
+                fetch('./action/fetchSubcategorys.php?id=' + categoryId)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.length) {
+                            data.map(i => {
+                                const {
+                                    id, name
+                                } = i;
+                                let template = `
                                 <li>
                                     <input type="radio" id="${id}" name="categories" value="${id}">
                                     <label for="${id}">${name}</label><br>
                                 </li>`;
-                                    $('#category_filter').append(template);
-                                })
+                                $('#category_filter').append(template);
+                            })
 
-                                let selectedCategory = $('#category_filter input:checked').val();
-                                let priceRange = $('#price-filter').val();
+                            let selectedCategory = $('#category_filter input:checked').val();
+                            let priceRange = $('#price-filter').val();
 
-                                // price filter
-                                $('#price-filter').change(function () {
-                                    priceRange = $(this).val();
+                            // price filter
+                            $('#price-filter').change(function () {
+                                priceRange = $(this).val();
 
-                                    fetchProducts(selectedCategory, priceRange, categoryId);
-                                })
+                                fetchProducts(selectedCategory, priceRange, categoryId);
+                            })
 
-                                // category filter
-                                $('#category_filter input').change(function () {
+                            // category filter
+                            $('#category_filter input').change(function () {
 
-                                    selectedCategory = $(this).val();
-                                    fetchProducts(selectedCategory, priceRange, categoryId);
-                                })
-                            }
-                        })
-
-                    $('#clear-filter').click(function () {
-                        location.reload();
+                                selectedCategory = $(this).val();
+                                fetchProducts(selectedCategory, priceRange, categoryId);
+                            })
+                        }
                     })
 
-                    fetchProducts(0, 0, categoryId);
+                $('#clear-filter').click(function () {
+                    location.reload();
+                })
 
-                    /* ------------------------ fetching product details ------------------------ */
-                    function fetchProducts(cat, price, categoryId) {
-                        $('.card-wrapper').empty();
-                        fetch('./action/fetchProduct.php?cat=' + cat + '&amount=' + price + '&category=' + categoryId)
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data)
-                                $('.wrap').fadeOut(500);
-                                if (data.length) {
-                                    $('#category-name').text(data[0]['categoryName']);
-                                    data.map(x => {
-                                        const {
-                                            id,
-                                            name,
-                                            price,
-                                            discount_price,
-                                            discription,
-                                            image
-                                        } = x;
-                                        let template = `
+                fetchProducts(0, 0, categoryId);
+
+                /* ------------------------ fetching product details ------------------------ */
+                function fetchProducts(cat, price, categoryId) {
+                    $('.card-wrapper').empty();
+                    fetch('./action/fetchProduct.php?cat=' + cat + '&amount=' + price + '&category=' + categoryId)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            $('.wrap').fadeOut(500);
+                            if (data.length) {
+                                $('#category-name').text(data[0]['categoryName']);
+                                data.map(x => {
+                                    const {
+                                        id, name, price, discount_price, discription, image
+                                    } = x;
+                                    let template = `
                                             <a href="./product-details.html?id=${id}" class="card">
                                                     <div class="image">
                                                         <img src="./admin/upload_image/products/${image}" alt="">
@@ -459,71 +393,65 @@ barba.init({
                                                         </div>
                                                     </div>
                                                 </a>`;
-                                        $('.card-wrapper').append(template);
-                                    });
-                                } else {
-                                    $('.card-wrapper').append(`<h1>No Data Found !</h1>`);
-                                }
-                            })
-                    }
-                } else {
+                                    $('.card-wrapper').append(template);
+                                });
+                            } else {
+                                $('.card-wrapper').append(`<h1>No Data Found !</h1>`);
+                            }
+                        })
+                }
+            } else {
 
-                    // fetch all sub category
-                    fetch('./action/fetchSubcategorys.php?id=0')
-                        .then(response => response.json())
-                        .then(data => {
-                            // console.log(data);
-                            if (data.length) {
-                                data.map(i => {
-                                    const {
-                                        id,
-                                        name
-                                    } = i;
-                                    let template = `
+                // fetch all sub category
+                fetch('./action/fetchSubcategorys.php?id=0')
+                    .then(response => response.json())
+                    .then(data => {
+                        // console.log(data);
+                        if (data.length) {
+                            data.map(i => {
+                                const {
+                                    id, name
+                                } = i;
+                                let template = `
                         <li>
                             <input type="radio" id="${id}" name="categories" value="${id}">
                             <label for="${id}">${name}</label><br>
                          </li>`;
-                                    $('#category_filter').append(template);
-                                })
+                                $('#category_filter').append(template);
+                            })
 
-                                let selectedCategory = $('#category_filter input:checked').val();
-                                let priceRange = $('#price-filter').val();
+                            let selectedCategory = $('#category_filter input:checked').val();
+                            let priceRange = $('#price-filter').val();
 
-                                // price filter
-                                $('#price-filter').change(function () {
-                                    priceRange = $(this).val();
-                                    fetchProducts(selectedCategory, priceRange);
-                                })
+                            // price filter
+                            $('#price-filter').change(function () {
+                                priceRange = $(this).val();
+                                fetchProducts(selectedCategory, priceRange);
+                            })
 
-                                // category filter
-                                $('#category_filter input').change(function () {
-                                    selectedCategory = $(this).val();
-                                    fetchProducts(selectedCategory, priceRange);
-                                })
-                            }
-                        })
+                            // category filter
+                            $('#category_filter input').change(function () {
+                                selectedCategory = $(this).val();
+                                fetchProducts(selectedCategory, priceRange);
+                            })
+                        }
+                    })
 
-                    fetchProducts(0, 0);
+                fetchProducts(0, 0);
 
-                    function fetchProducts(cat, price) {
-                        $('#product-card-wrap').empty();
-                        fetch('./action/fetchProduct.php?cat=' + cat + '&amount=' + price)
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                if (data.length) {
-                                    data.map(x => {
-                                        const {
-                                            id,
-                                            name,
-                                            price,
-                                            discount_price,
-                                            discription,
-                                            image
-                                        } = x;
+                function fetchProducts(cat, price) {
+                    $('#product-card-wrap').empty();
+                    fetch('./action/fetchProduct.php?cat=' + cat + '&amount=' + price)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            if (data.length) {
+                                data.map(x => {
+                                    const {
+                                        id, name, price, discount_price, discription, image
+                                    } = x;
 
-                                        let template = `
+                                    let template = `
                             <div class="card">
                                 <div class="image">
                                     <img src="./admin/upload_image/products/${image}" alt="">
@@ -541,291 +469,276 @@ barba.init({
                                 </div>
                             </div>`;
 
-                                        $('#product-card-wrap').append(template);
-                                    })
-                                }
-                            })
-                    }
+                                    $('#product-card-wrap').append(template);
+                                })
+                            }
+                        })
                 }
-
-
             }
-        },
-        {
-            namespace: 'product-details',
-            beforeEnter() {
-
-                basic();
-
-                $('.wrap').fadeOut(500);
-                const productId = location.href.split('=')[1];
 
 
-                function buttonState(prop) {
-                    if (prop == "disable") {
-                        $('.add-to-cart').css({
-                            opacity: 0.5,
-                            pointerEvents: 'none'
-                        })
-                    } else if (prop == "default") {
-                        $('.add-to-cart').css({
-                            opacity: 1,
-                            pointerEvents: 'inherit'
-                        })
-                    }
+        }
+    }, {
+        namespace: 'product-details', beforeEnter() {
+
+            basic();
+
+            $('.wrap').fadeOut(500);
+            const productId = location.href.split('=')[1];
+
+
+            function buttonState(prop) {
+                if (prop == "disable") {
+                    $('.add-to-cart').css({
+                        opacity: 0.5, pointerEvents: 'none'
+                    })
+                } else if (prop == "default") {
+                    $('.add-to-cart').css({
+                        opacity: 1, pointerEvents: 'inherit'
+                    })
+                }
+            }
+
+            // increment setup
+            const minus = $('.minus');
+            const plus = $('.plus');
+            let inputCount = $('#itemCount');
+            const cartCTA = $('.add-to-cart');
+            // increment
+            plus.click(function () {
+
+                let currentValue = Number(inputCount.val());
+
+                if (currentValue < 15) {
+
+
+                    // cartCTA.css({opacity : 1, =})
+                    updateCount(currentValue + 1);
+
+
                 }
 
-                // increment setup
-                const minus = $('.minus');
-                const plus = $('.plus');
-                let inputCount = $('#itemCount');
-                const cartCTA = $('.add-to-cart');
-                // increment
-                plus.click(function () {
+                // check if it is already inited
 
-                    let currentValue = Number(inputCount.val());
-
-                    if (currentValue < 15) {
-
-
-                        // cartCTA.css({opacity : 1, =})
-                        updateCount(currentValue + 1);
-
-
-                    }
-
-                    // check if it is already inited
-
-                    if (cartCTA.attr('data-init') == 'true') {
-                        cartButtonState(3);
-                    }
-
-                })
-                // decrement
-                minus.click(function () {
-                    let currentValue = Number(inputCount.val());
-
-                    if (currentValue > 0) {
-
-                        updateCount(currentValue - 1);
-
-
-                    }
-                    if (currentValue == 0) {
-                        buttonState('disable');
-                    }
-                    // check if it is already inited
-                    if (cartCTA.attr('data-init') == 'true') {
-                        cartButtonState(3);
-                    }
-                })
-                // update count
-                function updateCount(prop) {
-
-                    inputCount.val(prop)
+                if (cartCTA.attr('data-init') == 'true') {
+                    cartButtonState(3);
                 }
 
+            })
+            // decrement
+            minus.click(function () {
+                let currentValue = Number(inputCount.val());
+
+                if (currentValue > 0) {
+
+                    updateCount(currentValue - 1);
 
 
+                }
+                if (currentValue == 0) {
+                    buttonState('disable');
+                }
+                // check if it is already inited
+                if (cartCTA.attr('data-init') == 'true') {
+                    cartButtonState(3);
+                }
+            })
 
-                //add cart trigger
-                cartCTA.click(function () {
-                    const getValue = inputCount.val();
-                    const itemName = $('#product_name').text();
-                    const amount = $('.dis-price').text();
-                    const image = $('.image-box-left .image img').attr('src');
-                    const id = $('.image-box-left').attr('data-id');
-                    // const id = $('.')
-                    // insert into cookies
-                    if (inputCount.val() > 0) {
-                        cookies.add({
-                            cookieName: 'products',
-                            key: id,
-                            data: {
-                                id: id,
-                                name: itemName,
-                                amount: amount,
-                                thumbnail: image,
-                                count: inputCount.val()
-                            },
+            // update count
+            function updateCount(prop) {
 
-                        })
-                        cartButtonState(true);
-                        cartCTA.attr('data-init', true);
-
-                    } else {
-                        alert('Add atleast on item')
-                    }
-
-                });
-
-                // cart button state
-                function cartButtonState(prop) {
-                    const button = cartCTA;
-                    // udpate cart button state
-                    updateCartBtnCount();
+                inputCount.val(prop)
+            }
 
 
-                    if (prop == 1) {
-                        console.log('hi')
-                        button.text('Added to Cart');
-                        button.css({
-                            background: '#407940',
-                        });
+            //add cart trigger
+            cartCTA.click(function () {
+                const getValue = inputCount.val();
+                const itemName = $('#product_name').text();
+                const amount = $('.dis-price').text();
+                const image = $('.image-box-left .image img').attr('src');
+                const id = $('.image-box-left').attr('data-id');
+                // const id = $('.')
+                // insert into cookies
+                if (inputCount.val() > 0) {
+                    cookies.add({
+                        cookieName: 'products', key: id, data: {
+                            id: id, name: itemName, amount: amount, thumbnail: image, count: inputCount.val()
+                        },
 
-                        calculateCart()
-                    } else if (prop == 2) {
+                    })
+                    cartButtonState(true);
+                    cartCTA.attr('data-init', true);
 
-                        button.text('Add to Cart')
-                        button.css({
-                            background: 'black'
-                        });
-                        calculateCart()
-                    } else {
-                        button.text('Update Cart')
-                        button.css({
-                            background: '#c33e67'
-                        });
-                        calculateCart();
-                    }
+                } else {
+                    alert('Add atleast on item')
                 }
 
-                // update count state
-                function updateCount(prop) {
-                    if (prop) {
-                        inputCount.val(prop);
-                    }
+            });
+
+            // cart button state
+            function cartButtonState(prop) {
+                const button = cartCTA;
+                // udpate cart button state
+                updateCartBtnCount();
+
+
+                if (prop == 1) {
+                    console.log('hi')
+                    button.text('Added to Cart');
+                    button.css({
+                        background: '#407940',
+                    });
+
+                    calculateCart()
+                } else if (prop == 2) {
+
+                    button.text('Add to Cart')
+                    button.css({
+                        background: 'black'
+                    });
+                    calculateCart()
+                } else {
+                    button.text('Update Cart')
+                    button.css({
+                        background: '#c33e67'
+                    });
+                    calculateCart();
                 }
+            }
 
-                // select product size
-                $('.size-selectBtns .sizeBtn').click(function () {
-                    if ($(this).hasClass('picked-size')) {
-                        $(this).removeClass('picked-size');
-                    } else {
-                        $('.sizeBtn').removeClass('picked-size');
-                        $(this).addClass('picked-size');
-                    }
-                })
-
-                $('.color-wrapper .color').click(function () {
-                    if ($(this).hasClass('picked-color')) {
-                        $(this).removeClass('picked-size');
-                    } else {
-                        $('.color').removeClass('picked-color');
-                        $(this).addClass('picked-color');
-                    }
-                })
+            // update count state
+            function updateCount(prop) {
+                if (prop) {
+                    inputCount.val(prop);
+                }
+            }
 
 
 
-                // fetch product details
-                fetch('./action/fetchProductDetails.php?id=' + productId)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        if (data.length) {
-                            data.map(x => {
-                                const {
-                                    name,
-                                    price,
-                                    discount_price,
-                                    discription,
-                                    images,
-                                    id
-                                } = x;
+            $('.color-wrapper .color').click(function () {
+                if ($(this).hasClass('picked-color')) {
+                    $(this).removeClass('picked-size');
+                } else {
+                    $('.color').removeClass('picked-color');
+                    $(this).addClass('picked-color');
+                }
+            })
 
-                                $('#product_name').text(name);
-                                $('.dis-price').text(discount_price);
-                                $('.real-price').text(price);
-                                $('.desc-content').append(`${discription}`);
 
-                                let template = `
+            // fetch product details
+            fetch('./action/fetchProductDetails.php?id=' + productId)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.length) {
+                        data.map(x => {
+                            const {
+                                name, price, discount_price, discription, images, size, id
+                            } = x;
+
+
+                            $('#product_name').text(name);
+                            $('.dis-price').text(discount_price);
+                            $('.real-price').text(price);
+                            $('.desc-content').append(`${discription}`);
+
+                            if (size != '') {
+
+                                let sizeArray = size.split(',');
+                                sizeArray && sizeArray.map((x, i) => {
+                                    $('.size-selectBtns').append(`<div class="sizeBtn ${i == 0 ? 'picked-size' : ''} ">${x}</div>`);
+                                })
+                                // select product size
+                                $('.size-selectBtns .sizeBtn').click(function () {
+                                    if ($(this).hasClass('picked-size')) {
+                                        $(this).removeClass('picked-size');
+                                    } else {
+                                        $('.sizeBtn').removeClass('picked-size');
+                                        $(this).addClass('picked-size');
+                                    }
+                                })
+                            }
+
+                            let template = `
                             <div class="image-box-left" data-id="${id}">
                                 <div class="image">
                                     <img id="main-img" src="./admin/upload_image/products/${images[0]}" alt="">
                                 </div>
                             </div>
                             <div class="image-box-right">`;
-                                for (let i = 0; i < images.length; i++) {
-                                    template += `
+                            for (let i = 0; i < images.length; i++) {
+                                template += `
                                 <div class="image">
                                     <img src="./admin/upload_image/products/${images[i]}" alt="">
                                 </div>`;
-                                }
-                                template += `</div>`;
-
-
-                                $('#product_image_box').append(template);
-                            })
-
-
-                            // image preview
-                            $('.image-box-right img').each(function () {
-                                $(this).click(function () {
-                                    const url = $(this).attr('src');
-                                    const preview = $('#main-img');
-
-                                    preview.attr('src', url);
-                                })
-                            })
-
-                            // on load check if this already in cart
-                            let getCookie = cookies.getData('products');
-                            if (getCookie) {
-                                getCookie.map(x => {
-
-                                    if (x) {
-
-                                        const productName = $('#product_name').text();
-
-                                        const {
-                                            id,
-                                            count,
-                                            name
-                                        } = x;
-
-                                        if (name == productName) {
-                                            // button state to add to cart
-                                            cartButtonState(1);
-                                            // update count
-                                            updateCount(count);
-                                            cartCTA.attr('data-init', true);
-
-                                        } else {
-
-                                            // cartButtonState(2);
-                                            // cartCTA.attr('data-init', false);
-                                        }
-                                    }
-                                })
-
-
                             }
+                            template += `</div>`;
+
+
+                            $('#product_image_box').append(template);
+                        })
+
+
+                        // image preview
+                        $('.image-box-right img').each(function () {
+                            $(this).click(function () {
+                                const url = $(this).attr('src');
+                                const preview = $('#main-img');
+
+                                preview.attr('src', url);
+                            })
+                        })
+
+                        // on load check if this already in cart
+                        let getCookie = cookies.getData('products');
+                        if (getCookie) {
+                            getCookie.map(x => {
+
+                                if (x) {
+
+                                    const productName = $('#product_name').text();
+
+                                    const {
+                                        id, count, name
+                                    } = x;
+
+                                    if (name == productName) {
+                                        // button state to add to cart
+                                        cartButtonState(1);
+                                        // update count
+                                        updateCount(count);
+                                        cartCTA.attr('data-init', true);
+
+                                    } else {
+
+                                        // cartButtonState(2);
+                                        // cartCTA.attr('data-init', false);
+                                    }
+                                }
+                            })
+
+
                         }
-                    }).then(x => {
-                        $('.wrap').fadeOut(500);
-                    })
+                    }
+                }).then(x => {
+                $('.wrap').fadeOut(500);
+            })
 
 
+            // fetch related products
+            fetch('./action/fetchRelatedProducts.php?id=' + productId)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.length) {
+                        data.map(x => {
 
+                            const {
+                                name, price, discount_price, image, id
+                            } = x;
 
-                // fetch related products
-                fetch('./action/fetchRelatedProducts.php?id=' + productId)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        if (data.length) {
-                            data.map(x => {
-
-                                const {
-                                    name,
-                                    price,
-                                    discount_price,
-                                    image,
-                                    id
-                                } = x;
-
-                                let template = `
+                            let template = `
                        <a data-barba-prevent href="./product-details.html?id=${id}" class="card" data-id="${id}">
                             <div class="image">
                                 <img src="./admin/upload_image/products/${image}" alt="">
@@ -848,151 +761,136 @@ barba.init({
                             </div>
                         </a>`;
 
-                                $('#related .owl-carousel').append(template);
+                            $('#related .owl-carousel').append(template);
 
 
-                            })
-                            $('.wrap').fadeOut(500);
+                        })
+                        $('.wrap').fadeOut(500);
 
-                            $('.card-wrapper').owlCarousel({
-                                // loop: true,
-                                margin: 5,
-                                nav: false,
-                                stagePadding: 20,
-                                dots: false,
-                                responsive: {
-                                    0: {
-                                        items: 2
-                                    },
-                                    600: {
-                                        items: 2
-                                    },
-                                    1000: {
-                                        items: 5
-                                    }
+                        $('.card-wrapper').owlCarousel({
+                            // loop: true,
+                            margin: 5, nav: false, stagePadding: 20, dots: false, responsive: {
+                                0: {
+                                    items: 2
+                                }, 600: {
+                                    items: 2
+                                }, 1000: {
+                                    items: 5
                                 }
-                            })
-                        }
-                    })
-
-
-                // Buy Now Button
-                $('.buyNow-btn').click(function(e){
-                    e.preventDefault();
-                    $('.productCheckout-popup').show();
-                    $('.shimmer').show();
-                })
-                $('.productCheckout-popup .close').click(function(){
-                    $('.productCheckout-popup').hide();
-                    $('.shimmer').hide();
+                            }
+                        })
+                    }
                 })
 
-                 // product checkout
-                 $("#productCheckout-form").submit(function (e) {
-                    e.preventDefault();
-                  
 
-                    // product details
-                    const size = $('.sizeBtn.picked-size').text();
-                   const color = $('.color.picked-color').data('name');
-                   const qty = $('#itemCount').val();
-                   const price = $('.dis-price').text();
-                   const file = $('#doc')[0].files[0];
-                   const productName = $('#product_name').text();
-                    // form details
-                    const name = $("#name").val();
-                    const building_office = $("#building_office").val();
-                    const street_locality = $("#street_locality").val();
-                    const district = $("#district").val();
-                    const state = $("#state").val();
-                    const pincode = $("#pincode").val();
-                    const contactName = $("#contactName").val();
-                    const WhatsAppNumber = $("#WhatsAppNumber").val();
+            // Buy Now Button
+            $('.buyNow-btn').click(function (e) {
+                e.preventDefault();
+                $('.productCheckout-popup').show();
+                $('.shimmer').show();
+            })
+            $('.productCheckout-popup .close').click(function () {
+                $('.productCheckout-popup').hide();
+                $('.shimmer').hide();
+            })
+
+            // product checkout
+            $("#productCheckout-form").submit(function (e) {
+                e.preventDefault();
 
 
+                // product details
+                const size = $('.sizeBtn.picked-size').text();
+                const color = $('.color.picked-color').data('name');
+                const qty = $('#itemCount').val();
+                const price = $('.dis-price').text();
+                const file = $('#doc')[0].files[0];
+                const productName = $('#product_name').text();
+                // form details
+                const name = $("#name").val();
+                const building_office = $("#building_office").val();
+                const street_locality = $("#street_locality").val();
+                const district = $("#district").val();
+                const state = $("#state").val();
+                const pincode = $("#pincode").val();
+                const contactName = $("#contactName").val();
+                const WhatsAppNumber = $("#WhatsAppNumber").val();
 
 
-                    const link = `https://api.whatsapp.com/send?phone=+919746197164&text=Hello, 👋, I am ${name}. I've an order for *${$.trim(productName)}*. %0a%0a *Here is my shipping details* %0a%0a Name: ${name}%0a Building Name / Office Number: ${building_office}%0a Street / Locality: ${street_locality}%0a District: ${district}%0a State: ${state}%0a Pincode: ${pincode}%0a Contact Person's Name: ${contactName}%0a WhatsApp Number: ${WhatsAppNumber}%0a  
+                const link = `https://api.whatsapp.com/send?phone=+919746197164&text=Hello, 👋, I am ${name}. I've an order for *${$.trim(productName)}*. %0a%0a *Here is my shipping details* %0a%0a Name: ${name}%0a Building Name / Office Number: ${building_office}%0a Street / Locality: ${street_locality}%0a District: ${district}%0a State: ${state}%0a Pincode: ${pincode}%0a Contact Person's Name: ${contactName}%0a WhatsApp Number: ${WhatsAppNumber}%0a  
                     `;
-                    window.location = link;
+                window.location = link;
 
-                      let fd = new FormData();
-                      
-                    fd.append("size",size);
-                    fd.append("color",color);
-                    fd.append("qty",qty);
-                    fd.append("price",price);
-                    fd.append("file",file);
-                    fd.append("productName",productName);
-                    fd.append("name",name);
-                    fd.append("building_office",building_office);
-                    fd.append("street_locality", street_locality);
-                    fd.append("district", district);
-                    fd.append("state", state);
-                    fd.append("pincode", pincode);
-                    fd.append("contactName", contactName);
-                    fd.append("WhatsAppNumber", WhatsAppNumber);
-                    
+                let fd = new FormData();
 
-                    fetch('action/test.php',{
-                        method:'POST',
-                        body: fd
-                    })
+                fd.append("size", size);
+                fd.append("color", color);
+                fd.append("qty", qty);
+                fd.append("price", price);
+                fd.append("file", file);
+                fd.append("productName", productName);
+                fd.append("name", name);
+                fd.append("building_office", building_office);
+                fd.append("street_locality", street_locality);
+                fd.append("district", district);
+                fd.append("state", state);
+                fd.append("pincode", pincode);
+                fd.append("contactName", contactName);
+                fd.append("WhatsAppNumber", WhatsAppNumber);
+
+
+                fetch('action/test.php', {
+                    method: 'POST', body: fd
+                })
                     .then(response => response.text())
                     .then(res => {
-                        
+
                     })
-                });
+            });
 
-            }
-        },
-        {
-            namespace: 'contact',
-            beforeEnter(data) {
-                basic();
-
-                $("#contact-form .btn-filled").click(function (e) {
-                    e.preventDefault();
-                    alert();
-                    let fd = new FormData();
-                    fd.append("name", $("#name").val());
-                    fd.append("phone", $("#phone").val());
-                    fd.append("email", $("#email").val());
-                    fd.append("address", $("#address").val());
-                    fd.append("message", $("#message").val());
-
-                    $(".filled-btn").text("Sending...");
-
-                    fetch("action/contactMailer.php", {
-                            method: "POST",
-                            body: fd,
-                        })
-                        .then((response) => response.text())
-                        .then((response) => {
-                            console.log(response);
-
-                            if (response == "success") {
-                                $(".filled-btn").text("Success").css({
-                                    background: "green",
-                                    opacity: "1",
-                                });
-                                setTimeout(function () {
-                                    $(".filled-btn").text("Submit").css({
-                                        background: "green",
-                                    });
-                                }, 1000);
-                                $("#contact-form").trigger("reset");
-                            } else {
-                                $(".filled-btn").text("Failed").css({
-                                    background: "red",
-                                    opacity: "1",
-                                });
-                            }
-                        });
-                });
-            }
         }
-    ]
+    }, {
+        namespace: 'contact', beforeEnter(data) {
+            basic();
+
+            $("#contact-form .btn-filled").click(function (e) {
+                e.preventDefault();
+                alert();
+                let fd = new FormData();
+                fd.append("name", $("#name").val());
+                fd.append("phone", $("#phone").val());
+                fd.append("email", $("#email").val());
+                fd.append("address", $("#address").val());
+                fd.append("message", $("#message").val());
+
+                $(".filled-btn").text("Sending...");
+
+                fetch("action/contactMailer.php", {
+                    method: "POST", body: fd,
+                })
+                    .then((response) => response.text())
+                    .then((response) => {
+                        console.log(response);
+
+                        if (response == "success") {
+                            $(".filled-btn").text("Success").css({
+                                background: "green", opacity: "1",
+                            });
+                            setTimeout(function () {
+                                $(".filled-btn").text("Submit").css({
+                                    background: "green",
+                                });
+                            }, 1000);
+                            $("#contact-form").trigger("reset");
+                        } else {
+                            $(".filled-btn").text("Failed").css({
+                                background: "red", opacity: "1",
+                            });
+                        }
+                    });
+            });
+        }
+    }]
 })
 
 function basic() {
@@ -1032,8 +930,6 @@ function basic() {
         // gtag_report_conversion(url);
 
     });
-
-
 
 
     // side-menu
@@ -1090,11 +986,7 @@ function basic() {
                 if (x) {
                     const productName = $('#product_name').text();
                     const {
-                        id,
-                        count,
-                        name,
-                        amount,
-                        thumbnail
+                        id, count, name, amount, thumbnail
                     } = x;
 
                     let template = ` <div class="item-details" data-id="${id}">
@@ -1131,22 +1023,17 @@ function basic() {
                 removeButton.click(function () {
                     const parentId = $(this).closest('.item-details');
                     parentId.css({
-                        marginLeft: -100,
-                        transition: '0.3s',
-                        opacity: 0,
+                        marginLeft: -100, transition: '0.3s', opacity: 0,
                     });
                     setTimeout(function () {
                         parentId.remove();
                         calculateCart()
                         cookies.remove({
-                            cookieName: 'products',
-                            key: parentId.attr('data-id')
+                            cookieName: 'products', key: parentId.attr('data-id')
                         });
                         // update button state
                         updateCartBtnCount();
                     }, 300)
-
-
 
 
                 });
@@ -1178,21 +1065,14 @@ function basic() {
                         input.val(Number(input.val()) + 1)
                         // insert
                         cookies.add({
-                            cookieName: 'products',
-                            key: id,
-                            data: {
-                                id: id,
-                                name: name,
-                                amount: amount,
-                                thumbnail: image,
-                                count: input.val()
+                            cookieName: 'products', key: id, data: {
+                                id: id, name: name, amount: amount, thumbnail: image, count: input.val()
                             },
 
                         })
                         // calcaulate cart
                         calculateCart();
                     }
-
 
 
                 })
@@ -1204,14 +1084,8 @@ function basic() {
                         // insert
                         // insert
                         cookies.add({
-                            cookieName: 'products',
-                            key: id,
-                            data: {
-                                id: id,
-                                name: name,
-                                amount: amount,
-                                thumbnail: image,
-                                count: input.val()
+                            cookieName: 'products', key: id, data: {
+                                id: id, name: name, amount: amount, thumbnail: image, count: input.val()
                             },
 
                         })
@@ -1224,12 +1098,7 @@ function basic() {
                 })
 
 
-
             })
-
-
-
-
 
 
         }
@@ -1243,7 +1112,6 @@ function basic() {
     })
 
 
-
     // send enquiry
     const placeorderBtn = $('.cart-menu .btn-filled');
     placeorderBtn.click(function () {
@@ -1253,9 +1121,7 @@ function basic() {
 
         data.map(x => {
             const {
-                name,
-                amount,
-                count
+                name, amount, count
             } = x;
 
             template += "*" + name + "*" + " x " + count + "%0a";
