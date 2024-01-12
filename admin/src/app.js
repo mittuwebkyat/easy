@@ -1000,7 +1000,7 @@ barba.init({
                     }
                 })
         }
-    }, , {
+    }, {
         namespace: 'order_details', beforeEnter() {
             loader.load()
             sidemenu.active('orders')
